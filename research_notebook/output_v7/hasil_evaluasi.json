@@ -1,0 +1,33 @@
+{
+  "versi": "v7 \u2014 Fix Fase 1 (no warmup) + Frozen BN Fine-Tuning",
+  "framework": "PyTorch 2.6.0+cu126",
+  "gpu": "NVIDIA A30",
+  "perbaikan": [
+    "Hapus warmup manual yang buggy (sumber masalah v6-fix Fase 1)",
+    "LR head 2e-4 (turun dari 5e-4)",
+    "Scheduler ditunda 3 epoch pertama",
+    "Frozen BN dipertahankan di Fase 2 (terbukti berhasil)"
+  ],
+  "model_final": "./output_v7/model_fase2.pth",
+  "config": {
+    "img_size": 299,
+    "batch_size": 32,
+    "max_frames": 10,
+    "max_videos": 1000,
+    "lr_head": 0.0002,
+    "lr_ft_head": 0.0001,
+    "lr_ft_base": 1e-05
+  },
+  "hasil": {
+    "ff_plus_plus": {
+      "accuracy": 0.7083333333333334,
+      "auc": 0.7815384444444444
+    },
+    "celeb_df_v2": {
+      "accuracy": 0.61575,
+      "auc": 0.6693247499999999
+    },
+    "gap_accuracy": 0.09258333333333335,
+    "gap_auc": 0.11221369444444451
+  }
+}

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Deepfake Forensic - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "alert-fake": "#EF4444",
+                        "surface-container": "#e5eeff",
+                        "on-tertiary": "#ffffff",
+                        "safe-real": "#10B981",
+                        "muted-text": "#64748B",
+                        "surface-bright": "#f8f9ff",
+                        "primary-fixed": "#dae2fd",
+                        "on-secondary-container": "#006f67",
+                        "on-primary": "#ffffff",
+                        "secondary": "#006a63",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "tertiary-container": "#271901",
+                        "outline-variant": "#c6c6cd",
+                        "secondary-fixed": "#9cf2e8",
+                        "primary-fixed-dim": "#bec6e0",
+                        "slate-text": "#334155",
+                        "secondary-container": "#99efe5",
+                        "primary-container": "#131b2e",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-background": "#0b1c30",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed": "#00201d",
+                        "tertiary-fixed": "#fcdeb5",
+                        "surface-dim": "#cbdbf5",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#eff4ff",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-tint": "#565e74",
+                        "surface": "#FFFFFF",
+                        "on-tertiary-container": "#98805d",
+                        "inverse-primary": "#bec6e0",
+                        "outline": "#76777d",
+                        "tertiary": "#000000",
+                        "on-primary-container": "#7c839b",
+                        "inverse-surface": "#213145",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "on-primary-fixed": "#131b2e",
+                        "background": "#F8FAFC",
+                        "inverse-on-surface": "#eaf1ff",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#45464d",
+                        "primary": "#000000",
+                        "on-tertiary-fixed": "#271901"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-gap-sm": "16px",
+                        "grid-gutter": "16px",
+                        "inline-gap": "12px",
+                        "container-margin": "20px",
+                        "stack-gap-md": "24px",
+                        "stack-gap-lg": "40px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "caption": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "headline-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "label-lg": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-sm": ["16px", {"lineHeight": "22px", "fontWeight": "600"}],
+                        "body-lg": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-md": ["10px", {"lineHeight": "14px", "fontWeight": "500"}],
+                        "caption": ["10px", {"lineHeight": "14px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scrolling-content {
+            padding-bottom: 100px; /* Space for BottomNavBar */
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface shadow-[0_4px_8px_rgba(0,0,0,0.04)] flex justify-between items-center px-container-margin py-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-headline-md" data-icon="security">security</span>
+<div class="flex flex-col">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">Deepfake Forensic</h1>
+<p class="font-label-md text-label-md text-muted-text">Halo, Rifki Yuliandra</p>
+</div>
+</div>
+<div class="active:scale-95 transition-transform hover:opacity-80">
+<img alt="User profile photo" class="w-10 h-10 rounded-full border-2 border-primary-fixed shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5YmQR26x0ygzfAdOLOoyUtvZA1_ePQdWNNHcC4jtJg0liJ-zMGPHwdmdoLpB2cif0jVDCTqlv97Oxa5B0tno9O_SxmtJrvuaUvxxxOf9i_9RFwyEZCllyReIssVQZZD8g5BG23nD5y_bfDQoWpTDmbdpYphSYkie4g2203z8ruvbPPx-ZSa4bar-9-B9VCD7RtvAsED4cMqrJUTFNLGWykbLCKHzuNqmwFalKQrzBOV-bQgJo9xT5QGB5O2a0OHejM0U1zy9Hnhl4"/>
+</div>
+</header>
+<main class="scrolling-content px-container-margin pt-stack-gap-md space-y-stack-gap-lg">
+<!-- Hero Section -->
+<section>
+<div class="bg-primary-container rounded-xl p-6 shadow-lg relative overflow-hidden">
+<!-- Decorative element for tech feel -->
+<div class="absolute -right-10 -top-10 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-[120px]" data-icon="biotech">biotech</span>
+</div>
+<div class="relative z-10 space-y-4">
+<div>
+<h2 class="text-surface font-headline-lg text-headline-lg">Deteksi Gambar Sekarang</h2>
+<p class="text-on-primary-container font-body-lg text-body-lg mt-1 opacity-90">Pindai citra wajah untuk menganalisis keaslian fitur spasial</p>
+</div>
+<button class="w-full py-3 px-6 bg-safe-real text-primary font-headline-sm text-headline-sm rounded-lg active:scale-95 transition-all shadow-md hover:brightness-105 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
+                        Mulai Pindai Modul
+                    </button>
+</div>
+</div>
+</section>
+<!-- Statistics Section -->
+<section class="space-y-stack-gap-sm">
+<div class="flex justify-between items-end">
+<h3 class="font-headline-md text-headline-md text-slate-text">Statistik Model Engine v7</h3>
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider">Terverifikasi</span>
+</div>
+<div class="grid grid-cols-2 gap-grid-gutter">
+<!-- Card 1: Total Tests -->
+<div class="bg-surface p-4 rounded-xl shadow-[0_4px_8px_rgba(0,0,0,0.04)] border border-surface-container-low hover:border-primary-fixed transition-colors">
+<div class="w-8 h-8 bg-surface-container-low rounded-lg flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-primary-container" data-icon="dashboard">dashboard</span>
+</div>
+<p class="font-headline-lg text-headline-lg text-on-surface">2,480</p>
+<p class="font-label-md text-label-md text-muted-text mt-1">Total Citra Diuji</p>
+</div>
+<!-- Card 2: Global Accuracy -->
+<div class="bg-surface p-4 rounded-xl shadow-[0_4px_8_rgba(0,0,0,0.04)] border border-surface-container-low hover:border-safe-real/30 transition-colors">
+<div class="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-safe-real" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<p class="font-headline-lg text-headline-lg text-on-surface">70.83%</p>
+<p class="font-label-md text-label-md text-muted-text mt-1">Akurasi Global Uji FF++</p>
+</div>
+<!-- Card 3: AUC -->
+<div class="bg-surface p-4 rounded-xl shadow-[0_4px_8_rgba(0,0,0,0.04)] border border-surface-container-low hover:border-tertiary-fixed transition-colors">
+<div class="w-8 h-8 bg-amber-50 rounded-lg flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-on-tertiary-container" data-icon="medal" style="font-variation-settings: 'FILL' 1;">eda</span>
+</div>
+<p class="font-headline-lg text-headline-lg text-on-surface">0.7815</p>
+<p class="font-label-md text-label-md text-muted-text mt-1">Area Under Curve (AUC)</p>
+</div>
+<!-- Card 4: Inference Time -->
+<div class="bg-surface p-4 rounded-xl shadow-[0_4px_8_rgba(0,0,0,0.04)] border border-surface-container-low hover:border-outline-variant transition-colors">
+<div class="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-slate-text" data-icon="timer">timer</span>
+</div>
+<p class="font-headline-lg text-headline-lg text-on-surface">142 ms</p>
+<p class="font-label-md text-label-md text-muted-text mt-1">Rata-rata Waktu Inferensi</p>
+</div>
+</div>
+</section>
+<!-- Recent Activity / News Feed (High-end UI Pattern) -->
+<section class="space-y-stack-gap-sm">
+<h3 class="font-headline-md text-headline-md text-slate-text">Laporan Terakhir</h3>
+<div class="space-y-3">
+<div class="flex items-center p-3 bg-surface rounded-xl border border-surface-container-high shadow-sm gap-4">
+<img class="w-12 h-12 rounded-lg object-cover" data-alt="A close-up high-resolution facial scan being processed by digital forensic software. The UI shows grid patterns and pixel-level analysis indicators in a high-tech cybersecurity lab setting. Soft blue and dark slate lighting creates a focused, professional environment consistent with an advanced deepfake detection tool." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4hTj-bFNnK1KYru96SUsNBvrXFECksTauud2tow9DSVKXtAACSIM2UeoDHRLekEH4OzxBspQ7FoUVYkDChN4-CgJRILOClbEd3l863S0l6WYPH3eBZEypM7acaMkdgnbg0gH36bC_N9oGVm0MPfnsY8QnpSdjGfz1lwQNF4HovvX5z8aYCnrtqQG6YQBqiBawe91zSjSoLxwCkBETWDw5Wz63n3H7HyAc3pph_KVK6gNpbyxt4W6h7KArFAVlQKFXAYFQMEMKC0EZ"/>
+<div class="flex-1">
+<p class="font-label-lg text-label-lg text-on-surface">deepfake_test_01.jpg</p>
+<p class="font-caption text-caption text-muted-text">2 jam yang lalu • Confidence: 98%</p>
+</div>
+<div class="px-2 py-1 rounded bg-red-50 text-alert-fake font-label-md text-label-md">FAKE</div>
+</div>
+<div class="flex items-center p-3 bg-surface rounded-xl border border-surface-container-high shadow-sm gap-4">
+<img class="w-12 h-12 rounded-lg object-cover" data-alt="A detailed portrait of a human face with digital verification markers overlaying the skin texture. The style is clinical and precise, suggesting a scientific validation process. Background shows blurred forensic data monitors in shades of deep teal and slate. The mood is secure and authoritative, representing a 'safe' result in a digital integrity check." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAo8ComfajkDwJyQhPwsIVzixyKyVhvEjpqGAJq6TA1IW-QhUsSM3atdd3D44muaRCLSythlTnZ9wYUiasWbc_umAjkOgI83ooGCpSiJ1TGvmSqee4wBrLWcjb9564S7r2UreVsc00KlUAaGQFKRDc1-9SwTuyAHWqZg7MGClLt3QlgzZTFwLLMoW0mz4uluuqfkVqNYCqx6M9X0u5kR6nTANY1l2dpEQnG4FpXRG_bjgez2Hc9cnBtYbZLSTsY1fChTfwjGAbe75Oa"/>
+<div class="flex-1">
+<p class="font-label-lg text-label-lg text-on-surface">real_portrait_v2.png</p>
+<p class="font-caption text-caption text-muted-text">5 jam yang lalu • Confidence: 99%</p>
+</div>
+<div class="px-2 py-1 rounded bg-green-50 text-safe-real font-label-md text-label-md">REAL</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface shadow-lg rounded-t-xl flex justify-around items-center px-4 py-2">
+<!-- Dashboard (Active) -->
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-3 py-1.5 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md text-label-md mt-0.5">Dashboard</span>
+</button>
+<!-- Analyze -->
+<button class="flex flex-col items-center justify-center text-muted-text px-3 py-1.5 hover:bg-surface-container-low active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+<span class="font-label-md text-label-md mt-0.5">Analyze</span>
+</button>
+<!-- Forensics -->
+<button class="flex flex-col items-center justify-center text-muted-text px-3 py-1.5 hover:bg-surface-container-low active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="policy">policy</span>
+<span class="font-label-md text-label-md mt-0.5">Forensics</span>
+</button>
+<!-- Settings -->
+<button class="flex flex-col items-center justify-center text-muted-text px-3 py-1.5 hover:bg-surface-container-low active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md mt-0.5">Settings</span>
+</button>
+</nav>
+<script>
+        // Simple micro-interaction for cards
+        document.querySelectorAll('.bg-surface').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.classList.add('scale-[0.98]');
+            });
+            card.addEventListener('touchend', () => {
+                card.classList.remove('scale-[0.98]');
+            });
+        });
+    </script>
+</body></html>

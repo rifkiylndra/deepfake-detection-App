@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Deepfake Forensic - Forensic Results</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .chat-container {
+            height: calc(100vh - 460px);
+            overflow-y: auto;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E2E8F0;
+            border-radius: 10px;
+        }
+        .agent-bubble {
+            border-bottom-left-radius: 4px !important;
+        }
+        .user-bubble {
+            border-bottom-right-radius: 4px !important;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "alert-fake": "#EF4444",
+                        "secondary-fixed": "#9cf2e8",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "tertiary-container": "#271901",
+                        "safe-real": "#10B981",
+                        "surface-container-high": "#dce9ff",
+                        "inverse-primary": "#bec6e0",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "outline": "#76777d",
+                        "tertiary-fixed": "#fcdeb5",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "on-error": "#ffffff",
+                        "secondary": "#006a63",
+                        "tertiary": "#000000",
+                        "primary-container": "#131b2e",
+                        "secondary-fixed-dim": "#80d5cb",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "primary": "#000000",
+                        "on-secondary-container": "#006f67",
+                        "surface-tint": "#565e74",
+                        "primary-fixed": "#dae2fd",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-surface": "#0b1c30",
+                        "on-background": "#0b1c30",
+                        "error": "#ba1a1a",
+                        "surface": "#FFFFFF",
+                        "secondary-container": "#99efe5",
+                        "on-secondary-fixed": "#00201d",
+                        "on-tertiary-container": "#98805d",
+                        "on-primary-container": "#7c839b",
+                        "surface-dim": "#cbdbf5",
+                        "background": "#F8FAFC",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#271901",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-surface-variant": "#45464d",
+                        "surface-container": "#e5eeff",
+                        "slate-text": "#334155",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#131b2e",
+                        "muted-text": "#64748B",
+                        "surface-bright": "#f8f9ff",
+                        "outline-variant": "#c6c6cd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-gap-sm": "16px",
+                        "stack-gap-md": "24px",
+                        "stack-gap-lg": "40px",
+                        "inline-gap": "12px",
+                        "container-margin": "20px",
+                        "grid-gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "caption": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "caption": ["10px", {"lineHeight": "14px", "fontWeight": "400"}],
+                        "label-lg": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-md": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "label-md": ["10px", {"lineHeight": "14px", "fontWeight": "500"}],
+                        "headline-sm": ["16px", {"lineHeight": "22px", "fontWeight": "600"}],
+                        "body-lg": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- Top App Bar -->
+<header class="bg-surface dark:bg-on-background shadow-[0_4px_8px_rgba(0,0,0,0.04)] w-full top-0 sticky z-50 flex justify-between items-center px-container-margin py-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="security">security</span>
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface dark:text-inverse-on-surface">Laporan Forensik</h1>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-transform active:scale-95 cursor-pointer" data-icon="share">share</span>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="User Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYTH1SMW2KpS1kmX35nbtbUb-L2kHIZB6wDlRDe6mH5y5KY7CQ0LMUkO2-C88rvWTcpVlBf1xZNXnWyWr_Qu16kUP2x4VSoecpark7vX-RB_bNuazltmuVQ6IuXPc10eWFdJ9B-UWjSYEKW5K75_L5zHWMTk2q34MhBgec-cxX2yhzHSvrZhBlhW07SQH2zuvda7vhwCqc0_TUjce6kOEARPw_RKa6_PjbGKXRWSBS00eWBZiMFFsVGTfxdXxTdvoVb5d8JOtWw_NT"/>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-md mx-auto flex flex-col">
+<!-- Top Half: Result Preview -->
+<section class="p-container-margin space-y-4">
+<div class="relative bg-surface rounded-xl overflow-hidden shadow-sm border border-outline-variant/30 flex justify-center aspect-square max-h-[300px]">
+<img alt="Tested Face Preview" class="h-full w-auto object-contain" data-alt="A highly detailed forensic analysis photo of a human face, lit by harsh clinical studio lighting to reveal micro-textures and shadows. The subject is a middle-aged male with a neutral expression, positioned against a minimalist light gray laboratory background. The image has a slight digital overlay pattern of biometric scanning lines in subtle teal. Professional cybersecurity and forensic investigation aesthetic with high contrast and sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0OxW4geqCFnll-yHH7Jxd8kgURFPWgQCMIjcxGeJA3i2PM8L2vOzmBsd4vnmFpQ_LpS3NV3VR0Yi6jBUgJdLsg_HDjtswyKtpdppJSlOsrtgRGIfGgFMqAdvkdu7yQebFrGkiQze0HuCoMDb6CVZjTlJy-A73mLvVz4AG8AXByQe654LGMaRlTjcFqO5xW23vNuQ6vXxdXwnkfbYPhrGgM7U_gTZINy88glgV2rG06XCVVlKBPC5GCUtyJUeYarmdeA3Xw7CsYjne"/>
+</div>
+<!-- Verdict Badge -->
+<div class="bg-alert-fake text-on-primary rounded-lg py-3 px-4 flex flex-col items-center justify-center shadow-sm">
+<span class="font-headline-sm text-headline-sm font-bold tracking-wide">TERINDIKASI FAKE / MANIPULASI</span>
+</div>
+<!-- Confidence Score -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<span class="font-label-lg text-label-lg text-muted-text">Tingkat Keyakinan Model</span>
+<span class="font-headline-sm text-headline-sm font-bold text-alert-fake">78.15%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-3 rounded-full overflow-hidden">
+<div class="bg-alert-fake h-full rounded-full transition-all duration-1000" style="width: 78.15%"></div>
+</div>
+</div>
+</section>
+<div class="h-px bg-outline-variant/30 mx-container-margin"></div>
+<!-- Bottom Half: AI Agent Chat -->
+<section class="flex-1 flex flex-col bg-surface shadow-[0_-4px_8px_rgba(0,0,0,0.02)] rounded-t-3xl mt-2">
+<!-- Chat Header -->
+<div class="px-container-margin py-4 flex items-center justify-between border-b border-outline-variant/10">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" data-icon="smart_toy" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-safe-real rounded-full border-2 border-surface"></div>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Antigravity Consultant</h2>
+<p class="font-label-md text-label-md text-safe-real">Online / Aktif</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-muted-text" data-icon="info">info</span>
+</div>
+<!-- Chat Bubbles Area -->
+<div class="chat-container custom-scrollbar p-container-margin space-y-4">
+<!-- Agent Message -->
+<div class="flex flex-col gap-1 items-start max-w-[85%]">
+<div class="agent-bubble bg-[#F1F5F9] text-slate-text p-4 rounded-2xl font-body-lg text-body-lg shadow-sm">
+                        Analisis awal menunjukkan inkonsistensi pada tekstur kulit di sekitar mata dan distorsi pencahayaan yang tidak alami, ciri khas manipulasi AI generatif. Terdapat artefak visual pada tepian garis rambut yang tidak selaras dengan latar belakang.
+                    </div>
+<span class="font-caption text-caption text-muted-text ml-1">14:02 • AI Agent</span>
+</div>
+<!-- User Message Placeholder (Visual feedback) -->
+<div class="flex flex-col gap-1 items-end max-w-[85%] ml-auto">
+<div class="user-bubble bg-primary text-on-primary p-4 rounded-2xl font-body-lg text-body-lg shadow-sm">
+                        Apa saran Anda untuk tindakan selanjutnya?
+                    </div>
+<span class="font-caption text-caption text-muted-text mr-1">14:05 • Anda</span>
+</div>
+<!-- Agent Response Placeholder -->
+<div class="flex flex-col gap-1 items-start max-w-[85%]">
+<div class="agent-bubble bg-[#F1F5F9] text-slate-text p-4 rounded-2xl font-body-lg text-body-lg shadow-sm">
+                        Saya menyarankan untuk tidak menyebarkan konten ini. Anda dapat melaporkan temuan ini ke unit siber terkait menggunakan log ID forensik #UNAND-7815.
+                    </div>
+<span class="font-caption text-caption text-muted-text ml-1">14:06 • AI Agent</span>
+</div>
+</div>
+<!-- Chat Input Area -->
+<div class="p-4 bg-surface border-t border-outline-variant/10">
+<div class="flex items-center gap-2 bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-2 focus-within:ring-2 focus-within:ring-secondary/20 transition-all">
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-body-lg placeholder:text-muted-text p-1" placeholder="Tanyakan detail forensik pada Antigravity..." type="text"/>
+<button class="w-10 h-10 rounded-lg bg-primary text-on-primary flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="send" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar (Shell Only for reference) -->
+<nav class="fixed bottom-0 left-0 w-full bg-surface dark:bg-inverse-surface shadow-[0_-4px_8px_rgba(0,0,0,0.04)] flex justify-around items-center px-4 py-2 z-50 rounded-t-xl md:hidden">
+<a class="flex flex-col items-center justify-center text-muted-text dark:text-outline-variant px-3 py-1.5 hover:bg-surface-container-low active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-muted-text dark:text-outline-variant px-3 py-1.5 hover:bg-surface-container-low active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+<span class="font-label-md text-label-md">Analyze</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-3 py-1.5 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="policy" style="font-variation-settings: 'FILL' 1;">policy</span>
+<span class="font-label-md text-label-md">Forensics</span>
+</a>
+<a class="flex flex-col items-center justify-center text-muted-text dark:text-outline-variant px-3 py-1.5 hover:bg-surface-container-low active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<script>
+        // Simple auto-scroll for chat
+        const chatContainer = document.querySelector('.chat-container');
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        // Interaction for send button
+        document.querySelector('button[class*="bg-primary"]').addEventListener('click', function() {
+            const input = document.querySelector('input');
+            if(input.value.trim() !== '') {
+                // Logic for adding message would go here
+                input.value = '';
+            }
+        });
+    </script>
+</body></html>

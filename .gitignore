@@ -42,3 +42,10 @@ build/
 # IDE & OS
 .DS_Store
 Thumbs.db
+
+# Internal Project Docs
+AGENTS.md
+PRD_Deepfake_Detection_Mobile_App.md
+DESIGN.md
+CHECKPOINTS.md
+docs/

@@ -27,9 +27,9 @@ class ForensicProvider with ChangeNotifier {
   // Dynamic host selection: 10.0.2.2 for Android emulator, 127.0.0.1 for iOS/others
   String get baseUrl {
     if (Platform.isAndroid) {
-      return "http://10.0.2.2:7860";
+      return "https://rifkiylndra-deepfake-forensic-api.hf.space";
     }
-    return "http://127.0.0.1:7860";
+    return "https://rifkiylndra-deepfake-forensic-api.hf.space";
   }
 
   ForensicProvider() {
@@ -57,7 +57,7 @@ class ForensicProvider with ChangeNotifier {
       if (pickedFile != null) {
         _selectedImage = File(pickedFile.path);
         _predictionResult = null; // Clear previous results
-        _chatHistory.clear();     // Reset agent conversation
+        _chatHistory.clear(); // Reset agent conversation
         notifyListeners();
       }
     } catch (e) {
@@ -99,7 +99,7 @@ class ForensicProvider with ChangeNotifier {
 
       if (response.statusCode == 200 && response.data != null) {
         _predictionResult = Map<String, dynamic>.from(response.data);
-        
+
         // Save test session log into SQLite local database
         await DatabaseHelper.instance.insertLog({
           "filename": filename,
@@ -107,22 +107,23 @@ class ForensicProvider with ChangeNotifier {
           "confidence_score": _predictionResult!["confidence_score"],
           "timestamp": DateTime.now().toIso8601String(),
         });
-        
+
         // Refresh local stats count
         await _loadStats();
-        
+
         // Clear old chat log and set initial context prompt
         _chatHistory = [
           {
             "sender": "agent",
-            "text": "Halo! Saya Antigravity, konsultan forensik digital Anda. "
+            "text":
+                "Halo! Saya Antigravity, konsultan forensik digital Anda. "
                 "Citra wajah '${filename}' Anda telah dianalisis oleh Model Deep Learning v7 kami. "
                 "Hasil klasifikasi terdeteksi sebagai ${_predictionResult!["prediction"]} dengan tingkat keyakinan "
                 "${(_predictionResult!["confidence_score"] * 100).toStringAsFixed(2)}%.\n\n"
-                "Ada yang ingin Anda tanyakan seputar keamanan siber atau analisis citra ini?"
-          }
+                "Ada yang ingin Anda tanyakan seputar keamanan siber atau analisis citra ini?",
+          },
         ];
-        
+
         _isLoading = false;
         notifyListeners();
         return true;
@@ -130,9 +131,10 @@ class ForensicProvider with ChangeNotifier {
         throw Exception("Server mengembalikan status ${response.statusCode}");
       }
     } on DioException catch (dioError) {
-      if (dioError.type == DioExceptionType.connectionTimeout || 
+      if (dioError.type == DioExceptionType.connectionTimeout ||
           dioError.type == DioExceptionType.receiveTimeout) {
-        _errorMessage = "Koneksi ke server timeout. Pastikan server backend Anda berjalan.";
+        _errorMessage =
+            "Koneksi ke server timeout. Pastikan server backend Anda berjalan.";
       } else {
         _errorMessage = "Koneksi API Gagal: ${dioError.message}";
       }
@@ -152,40 +154,35 @@ class ForensicProvider with ChangeNotifier {
     if (userMessage.trim().isEmpty || _predictionResult == null) return;
 
     // Append user query to chat history
-    _chatHistory.add({
-      "sender": "user",
-      "text": userMessage,
-    });
-    
+    _chatHistory.add({"sender": "user", "text": userMessage});
+
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
       final filename = p.basename(_selectedImage!.path);
-      
+
       // Constructing JSON Payload as defined in AGENTS.md section 04
       final Map<String, dynamic> requestPayload = {
         "session_id": "sess_${DateTime.now().millisecondsSinceEpoch}",
         "media_metadata": {
           "filename": filename,
           "resolution": "299x299",
-          "source": "camera"
+          "source": "camera",
         },
         "inference_result": {
           "prediction": _predictionResult!["prediction"],
-          "confidence_score": _predictionResult!["confidence_score"]
+          "confidence_score": _predictionResult!["confidence_score"],
         },
-        "user_message": userMessage
+        "user_message": userMessage,
       };
 
       final response = await _dio.post(
         "$baseUrl/api/v1/agent/consult",
         data: requestPayload,
         options: Options(
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: {"Content-Type": "application/json"},
           sendTimeout: const Duration(seconds: 25),
           receiveTimeout: const Duration(seconds: 25),
         ),
@@ -194,19 +191,17 @@ class ForensicProvider with ChangeNotifier {
       if (response.statusCode == 200 && response.data != null) {
         final payloadData = response.data["payload"];
         final String agentReplyText = payloadData["agent_conversational_reply"];
-        
+
         // Append response reply to chat history
-        _chatHistory.add({
-          "sender": "agent",
-          "text": agentReplyText,
-        });
+        _chatHistory.add({"sender": "agent", "text": agentReplyText});
       } else {
         throw Exception("Gagal menghubungi Antigravity Agent.");
       }
     } on DioException catch (dioError) {
       _chatHistory.add({
         "sender": "agent",
-        "text": "Maaf, koneksi saya dengan server terganggu (${dioError.message}). Mohon coba tanyakan kembali sebentar lagi.",
+        "text":
+            "Maaf, koneksi saya dengan server terganggu (${dioError.message}). Mohon coba tanyakan kembali sebentar lagi.",
       });
     } catch (e) {
       _chatHistory.add({
